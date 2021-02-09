@@ -9,7 +9,7 @@
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+## Table of Contents
 
 - [Introduction](#introduction)
 - [Background](#background)
@@ -22,7 +22,7 @@
     - [migration](#migration)
     - [processed field](#processed-field)
     - [Android implementations](#android-implementations)
-    - [**Desktop** implementations](#desktop-implementations)
+    - [Desktop implementations](#desktop-implementations)
 - [Problem statement](#problem-statement)
 - [Requirements](#requirements)
 - [Key Scenarios](#key-scenarios)
@@ -93,9 +93,8 @@ For a user agent, 3 things happen in the background:
 1. It finds the installed app that matches the **identity **of the current manifest, and[ queues up a task](https://docs.google.com/document/d/1q5kmxNU7i4eem22LouMaIJ6123jOw5_zuxVQW1wfW8Y/edit) to update the installed app’s metadata, eg: scope, start\_url, etc.
 2. It checks whether the app matches installability criteria, if so and if the app is not already installed, it will allow users to install it..
 3. It checks if the current URL falls under any installed apps’ scopes and allow users to launch the site to the installed app’s window.
-4. 
 
-A web app’s **identity **is also used outside of the user agent’s context:
+A web app’s **identity** is also used outside of the user agent’s context:
 
 
 
@@ -155,7 +154,7 @@ start_url:../start.html
 
 #### [scope](https://www.w3.org/TR/appmanifest/#scope-member)
 
-Scope defines the navigation scope of this web app. Sometimes a website wants to host multiple apps with the same origin or within the same path on an origin. Eg: <code>https://example.com/chat</code>, <code>https://example.com/doc</code>, https://example.com/path/app1, https://example.com/path/app2.
+Scope defines the navigation scope of this web app. Sometimes a website wants to host multiple apps with the same origin or within the same path on an origin. Eg: `https://example.com/chat`, `https://example.com/doc`, `https://example.com/path/app1`, `https://example.com/path/app2`.
 
 scope is **processed **by user agent to be a full URL as:
 
@@ -226,12 +225,12 @@ processed scope: https://example.com/
 
 #### Android implementations
 
-When discussing behaviors on Android, this doc is specifically only covering Chromium-based browsers on Android.
+When discussing behaviors on Android, this doc is exclusively only covering Chromium-based browsers on Android.
 
 
-#### **Desktop** implementations
+#### Desktop implementations
 
-When discussing behaviors on desktop, this doc is specifically only covering Chromium-based browsers and Firefox on desktop.
+When discussing behaviors on desktop, this doc covers Chromium-based browsers and Firefox (desktop).
 
 
 ## Problem statement
@@ -474,7 +473,7 @@ This matches the existing desktop implementation.
 
 example.com global\_id = `https://www.example.com/index.html`
 
-developer specified id to match = `/index.html`
+developer specified id to match = `index.html`
 
 Pros:
 
@@ -798,11 +797,9 @@ On Android:
 
 On desktop:
 
-
-
 1. Apps without an ID field continue to use start\_url to generate ids.
 2. New apps with an ID field specified will use the new ID.
-3. Apps that already exist that want to use the ID field will specify both an ID field and **legacy_ids_** field. This instructs user agents to look up installed apps by legacy\_start\_url to do a **backend** **migration** to a new ID scheme.
+3. Apps that already exist that want to use the ID field will specify both an ID field and **legacy_ids_** field. This instructs user agents to look up installed apps by legacy_ids to do a **backend** **migration** to a new ID scheme.
 
 Alternatively, we can have separate legacy_manifest_url and legacy_start_url field to be explicit. The Cons with this approach is we have one more field and they are platform-specific.
 
