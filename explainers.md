@@ -225,12 +225,12 @@ processed scope: https://example.com/
 
 #### Android implementations
 
-When discussing behaviors on Android, this doc is exclusively only covering Chromium-based browsers on Android.
+When discussing behaviors on Android, this doc is exclusively only covering Chromium-based browsers on Android. iOS Safari doesn't support updating installed apps so this document has minimal impact on functionality on iOS Safari.
 
 
 #### Desktop implementations
 
-When discussing behaviors on desktop, this doc covers Chromium-based browsers and Firefox (desktop).
+When discussing behaviors on desktop, this doc covers Chromium-based browsers and Firefox (desktop). MacOS Safari doesn't installing PWAs.
 
 
 ## Problem statement
@@ -698,7 +698,7 @@ In reality it could be quite problematic to support this, as the global\_id is u
 
 Also, if manifest\_v1 is installed on an offline device 1 and manifest\_v2 is installed on an offline device 2, and sync is later turned on, it will result in temporary duplicated apps before the browser finishes the manifest update and dedupe it.  In general it’s very error prone to make the primary key changeable.
 
-Overall, if we use manifest\_url as the global\_id, we need to **not support **the use case of making manifest\_url updatable or deal with **non stable primary keys** for managing apps across devices. The upside of this approach is that the manifest\_url is a** resolvable URL**. The global\_id can be used alone to discover the app, however that’s a “nice to have” feature, but not a core requirement for the global\_id. Another benefit is that it allows non user agent entities having a simpler flow to keep the app up to date - they just need to save the manifest\_url as the key and periodically fetch it. 
+Overall, if we use manifest\_url as the global\_id, we need to **not support** the use case of making manifest\_url updatable or deal with **non stable primary keys** for managing apps across devices. The upside of this approach is that the manifest\_url is a **resolvable URL**. The global\_id can be used alone to discover the app, however that’s a “nice to have” feature, but not a core requirement for the global\_id. Another benefit is that it allows non user agent entities having a simpler flow to keep the app up to date - they just need to save the manifest\_url as the key and periodically fetch it. If there weren't existing apps & infrastructure that relied on changing manifest_url, and this was being designed from the beginning, this option is a lot more attractive.
 
 example.com global\_id:
 
@@ -840,9 +840,9 @@ For **previous versions of Chrome**, if it receives a sync entity from other dev
 
 ## Conclusion
 
-Using existing manifest\_url/start\_url would be bad because there are multiple use cases that require changing them. There are ways to mitigate changing of manifest\_urls if old ones can still be supported, but they are not ideal and don’t satisfy all the developers' needs. Having the global\_id to be resolvable is a pros for using manifest\_url, but it’s a “nice to have”, but not a required feature for the id. The main goal for the unique id is still to ensure having a stable identifier for apps that are flexible with updating their other metadata.
+Using existing manifest\_url/start\_url would be bad because there are multiple use cases that require changing them. There are ways to mitigate changing of manifest\_urls if old ones can still be supported, but they are sub-optimal and don’t satisfy all the use cases of manifest_urls updating. Having the global\_id to be a resolvable URL is a pros for using manifest\_url, it’s a “nice to have” property, but not a required feature for the global_id. 
 
-Using **start\_url\_origin + id** would be preferred as this is the most stable option.
+With the primary goal of ensuring having a stable identifier to support various use cases of updating app's metadata. Using **start\_url\_origin + id** is preferred as this is the most stable option.
 
 For the default field to use, **start\_url** is preferred.
 
