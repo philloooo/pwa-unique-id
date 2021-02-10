@@ -182,7 +182,7 @@ scope: "../"
 
 #### updatable
 
-Able to update certain parts of the web app’s metadata and still be considered the **same app**.
+Able to update certain parts of the web app’s metadata and still be considered the **same app**. When a field is not **updatable**, it means when it changes, the app is recognized as a different app and can be installed as a second app to the user's device.
 
 
 #### global_id
