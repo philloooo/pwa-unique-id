@@ -225,17 +225,19 @@ processed scope: https://example.com/
 
 #### Android implementations
 
-When discussing behaviors on Android, this doc is exclusively only covering Chromium-based browsers on Android. iOS Safari doesn't support updating installed apps so this document has minimal impact on functionality on iOS Safari.
+When referring to behaviors on Android, this doc is specifically talking about Chromium-based browsers on Android. iOS Safari doesn't support updating installed apps so this document has minimal impact on functionality on iOS Safari.
+
+Firefox Android uses start_url as the app id and also supports updating installed apps, so it behaves similarly to Chromium Desktop on this subject.
 
 
 #### Desktop implementations
 
-When discussing behaviors on desktop, this doc covers Chromium-based browsers. MacOS Safari doesn't support installing PWAs.
+When discussing behaviors on desktop, this doc covers Chromium-based browsers. MacOS Safari and Firefox on desktop don't support installing PWAs.
 
 
 ## Problem statement
 
-The [appmanifest spec](https://www.w3.org/TR/appmanifest/) doesn’t explicitly define what uniquely identifies a PWA. Currently, on the desktop versions of Chromium-based browsers, PWA are uniquely identified by ` start_url ` and Android Chromium-based browsers use `manifest_url` instead. We need a uniformed mechanism to uniquely identify PWAs because:
+The [appmanifest spec](https://www.w3.org/TR/appmanifest/) doesn’t explicitly define what uniquely identifies a PWA. Currently, on the desktop versions of Chromium-based browsers and Firefox on Android, PWAs are uniquely identified by ` start_url ` and Android Chromium-based browsers use `manifest_url` instead. We need a uniformed mechanism to uniquely identify PWAs because:
 
 
 
@@ -292,7 +294,7 @@ https://www.example.com/manifest.webmanifest
 
 A web app is installed on a user’s Android device.
 
-On Android this app has an id minted using platform, browser, normalized_manifest_url. The WebAPK’s Android package name is org.chromium.webapk.<id>.
+On Chromium Android this app has an id minted using platform, browser, normalized_manifest_url. The WebAPK’s Android package name is org.chromium.webapk.<id>.
 
 
 [Migration](#migration-for-user-agents) will have to be performed to support existing apps for options that do not use manifest_url as the identifier.
@@ -302,7 +304,7 @@ On Android this app has an id minted using platform, browser, normalized_manifes
 
 A web app is installed on a user’s desktop device.
 
-On Chromium this app has an id [minted ](https://source.chromium.org/chromium/chromium/src/+/master:chrome/browser/web_applications/web_app_install_finalizer.cc;l=130;drc=b669ad85b5fc10b3e7a9e70d5a470659843be39f;bpv=1;bpt=1)using start_url. The app is synced to all user’s desktop devices.
+On Chromium this app has an id [minted ](https://source.chromium.org/chromium/chromium/src/+/master:chrome/browser/web_applications/web_app_install_finalizer.cc;l=130;drc=b669ad85b5fc10b3e7a9e70d5a470659843be39f;bpv=1;bpt=1) using start_url. The app is synced to all user’s desktop devices.
 
 
 [Migration](#migration-for-user-agents) will have to be performed to support existing apps for options that do not use start_url as the identifier.
@@ -343,6 +345,7 @@ Use cases:
 
 Status today
 
+*   Firefox Android - possible
 *   Chromium desktop - possible
 *   Chromium Android - not possible
 
@@ -373,6 +376,7 @@ Status today
 
 
 
+*   Firefox Android - not possible
 *   Chromium desktop - not possible
 *   Chromium Android - possible
 
@@ -399,6 +403,7 @@ Example:
 
 
 
+*   Firefox Android - possible
 *   Chromium desktop - possible
 *   Chromium Android - not possible
 
