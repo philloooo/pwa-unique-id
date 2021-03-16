@@ -850,11 +850,13 @@ Using existing manifest_url/start_url would be bad because there are multiple us
 
 With the primary goal of ensuring having a stable identifier to support various use cases of updating app's metadata. Using **start_url\_origin + id** is preferred as this is the most stable option.
 
-For the default field to use, **start_url** is preferred.
+For the default field to use, **start_url** is preferred. A fallback default id is supported to allow smooth transition from existing platforms where an id field doesn't exist in the manifest. Therefore when considering which default field to choose, being backward compatible is the key consideration.
 
-Because of the existing sync design of desktop PWAs, old chromes will be unavoidable to have duplicate apps if the default is not start_url, there might be weird behaviors when duplicate apps exist.
+Given that, we are comparing using either manifest_url or start_url as the default:
+- If manifest_url is used as the default. Data URL and cross origin manifest URL are still not supported to be migrated smoothly.
+- Because of the existing sync design of desktop PWAs, old chromes will be unavoidable to have duplicate apps if the default is not start_url, there might be weird behaviors when duplicate apps exist.
 
-Due to the use cases for data URL, cross origin manifest URL, as well as the sync behavior, using start_url is preferred over manfiest\_url as default.
+Therefore start_url is preferred to be used as the default id. User agent implementations should strongly encourage apps to specify a stable ID, and potentially add it to installability criteria after apps adopt to specify the ID field.
 
 
 ## Other topics
