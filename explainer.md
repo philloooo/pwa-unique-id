@@ -229,6 +229,7 @@ When referring to behaviors on Android, this doc is specifically talking about C
 
 Firefox Android uses start_url as the app id and also supports updating installed apps, so it behaves similarly to Chromium Desktop on this subject.
 
+KaiOS also supports PWAs.  The currently released devices uses the Open Web Apps (OWA) manifest from Firefox OS, while the new upcoming major release will use PWA manifests. The OWA manifest as well as the future PWA manifest uses manifest_url as the id and start_url is enforced to have the same origin as the manifest_url. Data url is not supported and only store initiated installs are supported right now (No browser initiated installs.). 
 
 #### Desktop implementations
 
@@ -348,6 +349,7 @@ Status today
 *   Firefox Android - possible
 *   Chromium desktop - possible
 *   Chromium Android - not possible
+*   KaiOS - not possible
 
 
 #### Scenario 5
@@ -379,6 +381,7 @@ Status today
 *   Firefox Android - not possible
 *   Chromium desktop - not possible
 *   Chromium Android - possible
+*   KaiOS - possible
 
 
 ##### Sub-scenario - update the scope
@@ -406,6 +409,7 @@ Example:
 *   Firefox Android - possible
 *   Chromium desktop - possible
 *   Chromium Android - not possible
+*   KaiOS - data URL is not supported
 
 
 #### Scenario 7 
