@@ -850,13 +850,15 @@ Using existing manifest_url/start_url would be bad because there are multiple us
 
 With the primary goal of ensuring having a stable identifier to support various use cases of updating app's metadata. Using **start_url\_origin + id** is preferred as this is the most stable option.
 
-For the default field to use, **start_url** is preferred. A fallback default id is supported to allow smooth transition from existing platforms where an id field doesn't exist in the manifest. Therefore when considering which default field to choose, being backward compatible is the key consideration.
+A fallback default id is supported to allow smooth transition from existing platforms where an id field doesn't exist in the manifest. Therefore when considering which default field to choose, being backward compatible is the key consideration.
 
-Given that, we are comparing using either manifest_url or start_url as the default:
-- If manifest_url is used as the default. Data URL and cross origin manifest URL are still not supported to be migrated smoothly.
-- Because of the existing sync design of desktop PWAs, old chromes will be unavoidable to have duplicate apps if the default is not start_url, there might be weird behaviors when duplicate apps exist.
+**start_url** is preferred as the default **global_id** because:
 
-Therefore start_url is preferred to be used as the default id. User agent implementations should strongly encourage apps to specify a stable ID, and potentially add it to installability criteria after apps adopt to specify the ID field.
+- It matches the exiting behavior of two implementations (Chromium Desktop & Firefox Mobile), allowing easy transition for the codebase of those browsers & developer expectations.
+- Chromium Android (and other manifest_url -based designs) have to migrate anyways to support data urls and cross origin manifest_url.
+- Since the id field can be recommended & eventually required for installability, this default doesn't matter as much once all manifests specify an **id**.
+
+User agent implementations should strongly encourage apps to specify a stable ID, and potentially add it to installability criteria after apps adopt to specify the ID field.
 
 
 ## Other topics
