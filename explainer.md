@@ -850,15 +850,15 @@ Using existing manifest_url/start_url would be bad because there are multiple us
 
 With the primary goal of ensuring having a stable identifier to support various use cases of updating app's metadata. Using **start_url\_origin + id** is preferred as this is the most stable option.
 
-A fallback default id is supported to allow smooth transition from existing platforms where an id field doesn't exist in the manifest. Therefore when considering which default field to choose, being backward compatible is the key consideration.
+A fallback default id is supported to allow smooth transition from existing platforms where an **id** field doesn't exist in the manifest. Therefore when considering which default field to choose, being backward compatible is the key consideration.
 
 **start_url** is preferred as the default **global_id** because:
 
 - It matches the exiting behavior of two implementations (Chromium Desktop & Firefox Mobile), allowing easy transition for the codebase of those browsers & developer expectations.
 - Chromium Android (and other manifest_url -based designs) have to migrate anyways to support data urls and cross origin manifest_url.
-- Since the id field can be recommended & eventually required for installability, this default doesn't matter as much once all manifests specify an **id**.
+- Since the **id** field can be recommended & eventually required for installability, this default doesn't matter as much once all manifests specify an **id**.
 
-User agent implementations should strongly encourage apps to specify a stable ID, and potentially add it to installability criteria after apps adopt to specify the ID field.
+User agent implementations should strongly encourage apps to specify a stable **id**, and potentially add it to installability criteria after apps adopt to specify the **id** field.
 
 
 ## Other topics
