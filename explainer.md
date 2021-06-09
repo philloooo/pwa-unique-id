@@ -37,20 +37,20 @@
     - [Scenario 7](#scenario-7)
     - [Scenario 8](#scenario-8)
 - [Out of scope](#out-of-scope)
-- [Options for global\_id](#options-for-global%5C_id)
-  - [Recommended: 1. start_url\_origin + specified id](#recommended-1-start_url%5C_origin--specified-id)
-    - [Options for the default global\_id](#options-for-the-default-global%5C_id)
-      - [processed start_url as default global\_id (prefered option)](#processed-start_url-as-default-global%5C_id-prefered-option)
-      - [No specified default global\_id](#no-specified-default-global%5C_id)
-      - [processed manifest_url as default global\_id](#processed-manifest_url-as-default-global%5C_id)
-      - [start_url\_origin + relative manifest_url as default global\_id](#start_url%5C_origin--relative-manifest_url-as-default-global%5C_id)
+- [Options for global_id](#options-for-global_id)
+  - [Recommended: 1. start_url_origin + specified id](#recommended-1-start_url_origin--specified-id)
+    - [Options for the default global_id](#options-for-the-default-global_id)
+      - [processed start_url as default global_id (prefered option)](#processed-start_url-as-default-global_id-prefered-option)
+      - [No specified default global_id](#no-specified-default-global_id)
+      - [processed manifest_url as default global_id](#processed-manifest_url-as-default-global_id)
+      - [start_url\_origin + relative manifest_url as default global_id](#start_url%5C_origin--relative-manifest_url-as-default-global_id)
       - [processed scope](#processed-scope)
-      - [start_url\_origin as default global\_id](#start_url%5C_origin-as-default-global%5C_id)
-  - [2. global\_id = id (default processed manifest_url)](#2-global%5C_id--id-default-processed-manifest_url)
-  - [3. global\_id = processed manifest_url](#3-global%5C_id--processed-manifest_url)
-    - [1.Always use the original\_manifest_url as global\_id](#1always-use-the-original%5C_manifest_url-as-global%5C_id)
-    - [2.Support changing global\_id for apps.](#2support-changing-global%5C_id-for-apps)
-  - [4. global\_id = processed start_url](#4-global%5C_id--processed-start_url)
+      - [start_url\_origin as default global_id](#start_url%5C_origin-as-default-global_id)
+  - [2. global_id = id (default processed manifest_url)](#2-global_id--id-default-processed-manifest_url)
+  - [3. global_id = processed manifest_url](#3-global_id--processed-manifest_url)
+    - [1.Always use the original\_manifest_url as global_id](#1always-use-the-original%5C_manifest_url-as-global_id)
+    - [2.Support changing global_id for apps.](#2support-changing-global_id-for-apps)
+  - [4. global_id = processed start_url](#4-global_id--processed-start_url)
 - [Migration for user agents](#migration-for-user-agents)
   - [App initiated migration](#app-initiated-migration)
 - [Conclusion](#conclusion)
@@ -61,7 +61,7 @@
 
 ## Introduction
 
-What globally identifies a PWA is not defined in PWA specifications. This is an exploration document that describes and compares all the options for PWA unique identifiers, and makes a recommendation about the optimal solution. 
+What globally identifies a PWA is not defined in PWA specifications. This document describes and compares all the options for PWA unique identifiers, and makes a recommendation about the [optimal solution](#recommended-1-start_url_origin--specified-id). 
 
 
 ## Background
@@ -187,7 +187,7 @@ Able to update certain parts of the web app’s metadata and still be considered
 
 #### global_id
 
-Id that guarantees global uniqueness, will be used by external PWA stores. Could be a composite key. This document will be exploring options for the global\_id used to identify apps, as well as the default global\_id to be used when it’s not specified.
+Id that guarantees global uniqueness, will be used by external PWA stores. Could be a composite key. This document will be exploring options for the global_id used to identify apps, as well as the default global_id to be used when it’s not specified.
 
 
 #### migration
@@ -440,18 +440,18 @@ A web app is installed via [A2HS](https://developer.mozilla.org/en-US/docs/Web/P
 *   Migrating between origins.
 
 
-## Options for global\_id
+## Options for global_id
 
 
-### Recommended: 1. start_url\_origin + specified id
+### Recommended: 1. start_url_origin + specified id
 
-Developer would specify an `id` field in the manifest. The id field would be an opaque string. Concatenating `start_url_origin` + `"/" `+ `id` will produce the `global_id`. If id is not specified, a default global\_id will be used.
+Developer would specify an `id` field in the manifest. The id field would be an opaque string. Concatenating `start_url_origin` + `"/" `+ `id` will produce the `global_id`. If id is not specified, a default global_id will be used.
 
 The default value will determine how existing web apps work.
 
 This option covers the widest range of use cases, because a new id field is introduced, it allows other information to be updated. The downside is that it requires the parser to fetch the document to get the updated manifest when manifest_url is not stable. This will require more work for non-user agent entities like PWA stores and kiosks for updating apps.
 
-These are general pros and cons for this option. There are more complete trade off comparisons based on which **default** global\_id to use listed in subsections below.
+These are general pros and cons for this option. There are more complete trade off comparisons based on which **default** global_id to use listed in subsections below.
 
 Pros:
 
@@ -463,21 +463,21 @@ Cons:
 
 *   A new field is defined, work needed for app developers to define this if they don’t want to rely on the default identifier.
 *   [Migration](#migration-for-user-agents) needs to be done for existing browser implementations that don’t use the default identifier to index PWAs. 
-*   The global\_id is not a resolvable URL, this means the identifier can not be used solely to make the app discoverable.
+*   The global_id is not a resolvable URL, this means the identifier can not be used solely to make the app discoverable.
 
 
-#### Options for the default global\_id
+#### Options for the default global_id
 
-This subsection explores options for the default global\_id to use when `id` is not specified. These are sub-options under the `global_id = start_url_origin + specified id`, so they share the same pros and cons for the overall option, but have more trade offs compared with each other.
+This subsection explores options for the default global_id to use when `id` is not specified. These are sub-options under the `global_id = start_url_origin + specified id`, so they share the same pros and cons for the overall option, but have more trade offs compared with each other.
 
 
-##### processed start_url as default global\_id (prefered option)
+##### processed start_url as default global_id (prefered option)
 
-global\_id defaults to processed start_url when id is not specified.
+global_id defaults to processed start_url when id is not specified.
 
 This matches the existing desktop implementation.
 
-example.com global\_id = `https://www.example.com/index.html`
+example.com global_id = `https://www.example.com/index.html`
 
 developer specified id to match = `index.html`
 
@@ -499,7 +499,7 @@ Other considerations:
 *   [start_url spec](https://www.w3.org/TR/appmanifest/#start_url-member) **recommends** user agents to allow users to change start_url. user agents will need to store a separate user preferred start_url in this case. However this is not implemented by any user agent right now.
 
 
-##### No specified default global\_id
+##### No specified default global_id
 
 The user agents will be free to use their existing id mechanism as the default, and the specification will not require a specific default. 
 
@@ -525,13 +525,13 @@ Cons:
 The Cons might be acceptable because if we choose to not have specified default value, we will strongly encourage developers to migrate to specify the `id` field. We can have a warning in the lighthouse saying that the app will not be installable after X releases, unless an `id` is added.
 
 
-##### processed manifest_url as default global\_id
+##### processed manifest_url as default global_id
 
-global\_id defaults to processed manifest_url when id is not specified.
+global_id defaults to processed manifest_url when id is not specified.
 
 This matches the existing Android implementation.
 
-example.com global\_id:
+example.com global_id:
 
 
 ```
@@ -539,7 +539,7 @@ https://www.example.com/manifest.webmanifest
 ```
 
 
-example.com with cdn-manifest global\_id:
+example.com with cdn-manifest global_id:
 
 
 ```
@@ -567,13 +567,13 @@ For
 [S6: Manifests with data URL](#scenario-6), we either don’t support updating it, or make a special case to use start_url as default only for this. But this will make the spec messy.
 
 
-##### start_url\_origin + relative manifest_url as default global\_id
+##### start_url\_origin + relative manifest_url as default global_id
 
-global\_id defaults to start_url\_origin + relative manifest_url when id is not specified.
+global_id defaults to start_url\_origin + relative manifest_url when id is not specified.
 
 Replaces the manifest_url’s origin with the start_url\_origin when they are different.
 
-example.com global\_id:
+example.com global_id:
 
 
 ```
@@ -581,7 +581,7 @@ https://www.example.com/manifest.webmanifest
 ```
 
 
-example.com with cdn-manifest global\_id:
+example.com with cdn-manifest global_id:
 
 
 ```
@@ -603,9 +603,9 @@ Cons:
 
 ##### processed scope
 
-global\_id defaults to processed scope URL when id is not specified.
+global_id defaults to processed scope URL when id is not specified.
 
-example.com global\_id:
+example.com global_id:
 
 
 ```
@@ -626,11 +626,11 @@ Cons:
 *   No existing browser implementation uses the scope to key web apps. [S1: installed apps on Android](#scenario-1), [S2: installed apps on desktop](#scenario-2), [S3: Apps that are installed on both Android and desktop](#scenario-3) needs to handle [migration](#migration-for-user-agents).
 
 
-##### start_url\_origin as default global\_id
+##### start_url\_origin as default global_id
 
-global\_id defaults to start_url\_origin when id is not specified.
+global_id defaults to start_url\_origin when id is not specified.
 
-example.com global\_id:
+example.com global_id:
 
 
 ```
@@ -650,9 +650,9 @@ Cons:
 *   Share all the same cons as using `scope`. 
 
 
-### 2. global\_id = id (default processed manifest_url)
+### 2. global_id = id (default processed manifest_url)
 
-This option is listed here to compare it with the first option. We can have an id field that’s required to use the URL scheme and just use this as the global\_id.
+This option is listed here to compare it with the first option. We can have an id field that’s required to use the URL scheme and just use this as the global_id.
 
 The pros for this option is it’s simpler than the first one, you don’t need to get two values and concatenate them. The obvious con is that users can spoof the IDs to be under whatever origin they want. That’s the reason we had the id prefixed with the document's origin for the first option.
 
@@ -680,33 +680,33 @@ This makes this approach functions the same as the first option:
 `start_url_origin + ID`. The difference is being fully explicit vs the first option being more terse. Since the origin part is required to be the same, it's redundant information, so the first option is preferred.
 
 
-### 3. global\_id = processed manifest_url
+### 3. global_id = processed manifest_url
 
-The processed absolute manifest_url used as the global\_id. This is how Android operates today.
+The processed absolute manifest_url used as the global_id. This is how Android operates today.
 
-This means changing manifest_url will change the global\_id. We already have lots of apps that do change manifest_url, see 
+This means changing manifest_url will change the global_id. We already have lots of apps that do change manifest_url, see 
 [Scenario 4](#scenario-4), and it’s **important **to support this use case.
 
 There are two possible ways to mitigate this problem:
 
 
-#### 1.Always use the original\_manifest_url as global\_id
+#### 1.Always use the original\_manifest_url as global_id
 
-Document always sticks to link to the original manifest_url, the original manifest_url redirects to latest manifest_url. User agents will be required to follow 301 redirects to fetch the latest content, but the global\_id stays the same. This also means if there are PWA stores that do web scrawls, they will get multiple manifest_urls, and they will need to du-dup them. This basically means users will need to stick with the same manfiest\_url forever. And change of CDN and document structure won’t be allowed as the previous url is dead. So 
+Document always sticks to link to the original manifest_url, the original manifest_url redirects to latest manifest_url. User agents will be required to follow 301 redirects to fetch the latest content, but the global_id stays the same. This also means if there are PWA stores that do web scrawls, they will get multiple manifest_urls, and they will need to du-dup them. This basically means users will need to stick with the same manfiest\_url forever. And change of CDN and document structure won’t be allowed as the previous url is dead. So 
 [Scenario 4](#scenario-4) is not really supported.
 
 
-#### 2.Support changing global\_id for apps.
+#### 2.Support changing global_id for apps.
 
-Document uses the latest manifest_url, old manifest_url redirects to the latest, so that user agents with an installed app can follow the old manifest_url to find it’s global\_id is changed. This means the global\_id **won’t be stable**, and it would require user agents to support migrating apps’ ids as a feature.
+Document uses the latest manifest_url, old manifest_url redirects to the latest, so that user agents with an installed app can follow the old manifest_url to find it’s global_id is changed. This means the global_id **won’t be stable**, and it would require user agents to support migrating apps’ ids as a feature.
 
-In reality it could be quite problematic to support this, as the global\_id is used as the primary key for apps synced across devices. If an app with manifest\_v1 is installed, and the user browses to an installable site on a tab, the user agent needs to go through all existing installed apps, refresh their manifest, then check if the site is installed or not. This will substantially affect the performance of the user agents to do a O(N) operation.
+In reality it could be quite problematic to support this, as the global_id is used as the primary key for apps synced across devices. If an app with manifest\_v1 is installed, and the user browses to an installable site on a tab, the user agent needs to go through all existing installed apps, refresh their manifest, then check if the site is installed or not. This will substantially affect the performance of the user agents to do a O(N) operation.
 
 Also, if manifest\_v1 is installed on an offline device 1 and manifest\_v2 is installed on an offline device 2, and sync is later turned on, it will result in temporary duplicated apps before the browser finishes the manifest update and dedupe it.  In general it’s very error prone to make the primary key changeable.
 
-Overall, if we use manifest_url as the global\_id, we need to **not support** the use case of making manifest_url updatable or deal with **non stable primary keys** for managing apps across devices. The upside of this approach is that the manifest_url is a **resolvable URL**. The global\_id can be used alone to discover the app, however that’s a “nice to have” feature, but not a core requirement for the global\_id. Another benefit is that it allows non user agent entities having a simpler flow to keep the app up to date - they just need to save the manifest_url as the key and periodically fetch it. If there weren't existing apps & infrastructure that relied on changing manifest_url, and this was being designed from the beginning, this option is a lot more attractive.
+Overall, if we use manifest_url as the global_id, we need to **not support** the use case of making manifest_url updatable or deal with **non stable primary keys** for managing apps across devices. The upside of this approach is that the manifest_url is a **resolvable URL**. The global_id can be used alone to discover the app, however that’s a “nice to have” feature, but not a core requirement for the global_id. Another benefit is that it allows non user agent entities having a simpler flow to keep the app up to date - they just need to save the manifest_url as the key and periodically fetch it. If there weren't existing apps & infrastructure that relied on changing manifest_url, and this was being designed from the beginning, this option is a lot more attractive.
 
-example.com global\_id:
+example.com global_id:
 
 
 ```
@@ -714,7 +714,7 @@ https://www.example.com/manifest.webmanifest
 ```
 
 
-example.com with cdn-manifest global\_id:
+example.com with cdn-manifest global_id:
 
 
 ```
@@ -722,7 +722,7 @@ https://www.real-cdn.com/example-com-manifest.webmanifest
 ```
 
 
-Below pros and cons use the first option to support 301 redirects - that is, always use the original manifest_url as global\_id. As the second approach is not reliable.
+Below pros and cons use the first option to support 301 redirects - that is, always use the original manifest_url as global_id. As the second approach is not reliable.
 
 Pros
 
@@ -741,13 +741,13 @@ Cons
 *   Difficult to reconcile with [S8: apps installed from A2HS](#scenario-8), which does NOT require a manifest. ID creating here is weird, and instead would have to have custom upgrade handling for when a manifest is found on the page.
 
 
-### 4. global\_id = processed start_url
+### 4. global_id = processed start_url
 
 The processed absolute start_url. This is how Desktop web operates today.
 
 If apps want to change the start_url, it will be recognized as a new app. We could require user agents to support 301 redirect, in this case, the **manifest still always needs to use the original start_url **to be recognized as the same app** **, and app developers will just make the original start_url redirect to the latest version of start_url.
 
-example.com global\_id:
+example.com global_id:
 
 
 ```
@@ -846,7 +846,7 @@ For **previous versions of Chrome**, if it receives a sync entity from other dev
 
 ## Conclusion
 
-Using existing manifest_url/start_url would be bad because there are multiple use cases that require changing them. There are ways to mitigate changing of manifest_urls if old ones can still be supported, but they are sub-optimal and don’t satisfy all the use cases of manifest_urls updating. Having the global\_id to be a resolvable URL is a pros for using manifest_url, it’s a “nice to have” property, but not a required feature for the global_id. 
+Using existing manifest_url/start_url would be bad because there are multiple use cases that require changing them. There are ways to mitigate changing of manifest_urls if old ones can still be supported, but they are sub-optimal and don’t satisfy all the use cases of manifest_urls updating. Having the global_id to be a resolvable URL is a pros for using manifest_url, it’s a “nice to have” property, but not a required feature for the global_id. 
 
 With the primary goal of ensuring having a stable identifier to support various use cases of updating app's metadata. Using **start_url\_origin + id** is preferred as this is the most stable option.
 
