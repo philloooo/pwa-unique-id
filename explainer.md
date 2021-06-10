@@ -43,12 +43,12 @@
       - [processed start_url as default global_id (prefered option)](#processed-start_url-as-default-global_id-prefered-option)
       - [No specified default global_id](#no-specified-default-global_id)
       - [processed manifest_url as default global_id](#processed-manifest_url-as-default-global_id)
-      - [start_url\_origin + relative manifest_url as default global_id](#start_url%5C_origin--relative-manifest_url-as-default-global_id)
+      - [start_url_origin + relative manifest_url as default global_id](#start_url_origin--relative-manifest_url-as-default-global_id)
       - [processed scope](#processed-scope)
-      - [start_url\_origin as default global_id](#start_url%5C_origin-as-default-global_id)
+      - [start_url_origin as default global_id](#start_url_origin-as-default-global_id)
   - [2. global_id = id (default processed manifest_url)](#2-global_id--id-default-processed-manifest_url)
   - [3. global_id = processed manifest_url](#3-global_id--processed-manifest_url)
-    - [1.Always use the original\_manifest_url as global_id](#1always-use-the-original%5C_manifest_url-as-global_id)
+    - [1.Always use the original_manifest_url as global_id](#1always-use-the-original_manifest_url-as-global_id)
     - [2.Support changing global_id for apps.](#2support-changing-global_id-for-apps)
   - [4. global_id = processed start_url](#4-global_id--processed-start_url)
 - [Migration for user agents](#migration-for-user-agents)
@@ -567,11 +567,11 @@ For
 [S6: Manifests with data URL](#scenario-6), we either don’t support updating it, or make a special case to use start_url as default only for this. But this will make the spec messy.
 
 
-##### start_url\_origin + relative manifest_url as default global_id
+##### start_url_origin + relative manifest_url as default global_id
 
-global_id defaults to start_url\_origin + relative manifest_url when id is not specified.
+global_id defaults to start_url_origin + relative manifest_url when id is not specified.
 
-Replaces the manifest_url’s origin with the start_url\_origin when they are different.
+Replaces the manifest_url’s origin with the start_url_origin when they are different.
 
 example.com global_id:
 
@@ -626,9 +626,9 @@ Cons:
 *   No existing browser implementation uses the scope to key web apps. [S1: installed apps on Android](#scenario-1), [S2: installed apps on desktop](#scenario-2), [S3: Apps that are installed on both Android and desktop](#scenario-3) needs to handle [migration](#migration-for-user-agents).
 
 
-##### start_url\_origin as default global_id
+##### start_url_origin as default global_id
 
-global_id defaults to start_url\_origin when id is not specified.
+global_id defaults to start_url_origin when id is not specified.
 
 example.com global_id:
 
@@ -690,7 +690,7 @@ This means changing manifest_url will change the global_id. We already have lots
 There are two possible ways to mitigate this problem:
 
 
-#### 1.Always use the original\_manifest_url as global_id
+#### 1.Always use the original_manifest_url as global_id
 
 Document always sticks to link to the original manifest_url, the original manifest_url redirects to latest manifest_url. User agents will be required to follow 301 redirects to fetch the latest content, but the global_id stays the same. This also means if there are PWA stores that do web scrawls, they will get multiple manifest_urls, and they will need to du-dup them. This basically means users will need to stick with the same manfiest\_url forever. And change of CDN and document structure won’t be allowed as the previous url is dead. So 
 [Scenario 4](#scenario-4) is not really supported.
@@ -848,7 +848,7 @@ For **previous versions of Chrome**, if it receives a sync entity from other dev
 
 Using existing manifest_url/start_url would be bad because there are multiple use cases that require changing them. There are ways to mitigate changing of manifest_urls if old ones can still be supported, but they are sub-optimal and don’t satisfy all the use cases of manifest_urls updating. Having the global_id to be a resolvable URL is a pros for using manifest_url, it’s a “nice to have” property, but not a required feature for the global_id. 
 
-With the primary goal of ensuring having a stable identifier to support various use cases of updating app's metadata. Using **start_url\_origin + id** is preferred as this is the most stable option.
+With the primary goal of ensuring having a stable identifier to support various use cases of updating app's metadata. Using **start_url_origin + id** is preferred as this is the most stable option.
 
 A fallback default id is supported to allow smooth transition from existing platforms where an **id** field doesn't exist in the manifest. Therefore when considering which default field to choose, being backward compatible is the key consideration.
 
