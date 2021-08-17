@@ -61,7 +61,7 @@
 
 ## Introduction
 
-What globally identifies a PWA is not defined in PWA specifications. This document describes and compares all the options for PWA unique identifiers, and makes a recommendation about the [optimal solution](#recommended-1-start_url_origin--specified-id). 
+What globally identifies a PWA is not defined in PWA specifications. This document describes and compares all the options for PWA unique identifiers, and makes a recommendation about the [optimal solution](#proposal). 
 
 
 ## Background
@@ -440,12 +440,14 @@ A web app is installed via [A2HS](https://developer.mozilla.org/en-US/docs/Web/P
 *   Migrating between origins.
 
 
-## Options for global_id
+## Proposal
+Define an optional `id` field in the manifest. The id field would be an opaque string, and being parsed as an URL using start_url's origin as the base_url. See [detail about processing algorithm](https://pr-preview.s3.amazonaws.com/philloooo/manifest/pull/988.html#id-member). When `id` is undefined, use `start_url` as the default [global_id](#global_id). Below section covers in detail the pros and cons for the proposed solution (noted as `recommended`) and alternatives.
 
+## Comparing options
 
 ### Recommended: 1. start_url_origin + specified id
 
-Developer would specify an `id` field in the manifest. The id field would be an opaque string. Concatenating `start_url_origin` + `"/" `+ `id` will produce the `global_id`. If id is not specified, a default global_id will be used.
+Developer would specify an `id` field in the manifest. The id field would be an opaque string. [URL parsing](https://url.spec.whatwg.org/#concept-url-parser) `id` with `start_url_origin` as the base_url produces the `global_id`. If id is not specified, a default global_id will be used.
 
 The default value will determine how existing web apps work.
 
@@ -771,7 +773,7 @@ Cons
 
 ## Migration for user agents
 
-For solutions that add a new id field, if the default id doesn’t match the current user agent’s id solution, **migration** needs to be done for installed apps.
+For solutions that add a new id field, if the default id used **doesn’t match** the current user agent’s id solution, **migration** needs to be done for installed apps.
 
 To avoid breaking developers’ existing expectations, we can perform the migration in two phases. Or if it’s too complicated, we can just do phase 2 directly.
 
@@ -848,11 +850,11 @@ For **previous versions of Chrome**, if it receives a sync entity from other dev
 
 Using existing manifest_url/start_url would be bad because there are multiple use cases that require changing them. There are ways to mitigate changing of manifest_urls if old ones can still be supported, but they are sub-optimal and don’t satisfy all the use cases of manifest_urls updating. Having the global_id to be a resolvable URL is a pros for using manifest_url, it’s a “nice to have” property, but not a required feature for the global_id. 
 
-With the primary goal of ensuring having a stable identifier to support various use cases of updating app's metadata. Using **start_url_origin + id** is preferred as this is the most stable option.
+With the primary goal of ensuring having a stable identifier to support various use cases of updating app's metadata. Using [start_url_origin + id](#recommended-1-start_url_origin--specified-id) is preferred as this is the most stable option.
 
 A fallback default id is supported to allow smooth transition from existing platforms where an **id** field doesn't exist in the manifest. Therefore when considering which default field to choose, being backward compatible is the key consideration.
 
-**start_url** is preferred as the default **global_id** because:
+[start_url](#processed-start_url-as-default-global_id-prefered-option) is preferred as the default **global_id** because:
 
 - It matches the exiting behavior of two implementations (Chromium Desktop & Firefox Mobile), allowing easy transition for the codebase of those browsers & developer expectations.
 - Chromium Android (and other manifest_url -based designs) have to migrate anyways to support data urls and cross origin manifest_url.
@@ -860,6 +862,54 @@ A fallback default id is supported to allow smooth transition from existing plat
 
 User agent implementations should strongly encourage apps to specify a stable **id**, and potentially add it to installability criteria after apps adopt to specify the **id** field.
 
+## How do app developers adopt to use the manifest ID
+
+If you are creating an app from scratch (no existing installs to update)
+id is just a string, like a UUID, that uniquely identifies the app on the start_url_origin
+
+(at https://www.new-app.com/):
+
+{
+  ...
+  id: "NewAppId",
+  start_url: "/index.html", // <- updatable now
+  ...
+}
+The global id evaluates to https://www.example.com/ + NewAppId = https://www.example.com/NewAppId. This is not intended to be evaluate-able, but looks like a URL.
+
+If you have an existing app (installs exist where the manifest did NOT have an id set)
+id should be the relative path of the start_url so that the new manifest (with id specified) will apply, and thus update, the old manifest. EX:
+
+old (at https://www.example.com/):
+
+{
+  ...
+  start_url: "/index.html"
+  ...
+}
+The default global id is: https://www.example.com/index.html
+
+new:
+
+{
+  ...
+  id: "index.html",
+  start_url: "/index.html", // <- now this is updatable!
+  ...
+}
+The global id evaluates to https://www.example.com/ + index.html = https://www.example.com/index.html, thus matching the old manifest.
+
+Hopefully that makes sense?
+
+(example of updating the start_url of the app)
+
+{
+  ...
+  id: "index.html",
+  start_url: "/nested/index.html",
+  scope: "/nested/",
+  ...
+}
 
 ## Other topics
 
