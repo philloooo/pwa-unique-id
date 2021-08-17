@@ -61,7 +61,7 @@
 
 ## Introduction
 
-What globally identifies a PWA is not defined in PWA specifications. This document describes and compares all the options for PWA unique identifiers, and makes a recommendation about the [optimal solution](#proposal). 
+What globally identifies a web application is not defined in [app manifest specification](https://www.w3.org/TR/appmanifest/). This document describes and compares all the options for web app unique identifiers, and [proposes](#proposal) adding an `id` member to the manifest. 
 
 
 ## Background
