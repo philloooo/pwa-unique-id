@@ -7,7 +7,7 @@ As of approximately August 18, 2021, it is available on Chrome Canary channel. I
 
 # Enabling manifest id member in Chrome
 1. Download a version of Chrome with manifest id implemented. ([Link for Canary channel](https://www.google.com/chrome/))
-2. Launch Chrome with the command line flag --enable-features=WebAppEnableManifestId. ([Instructions for different platforms.](https://www.chromium.org/developers/how-tos/run-chromium-with-flags))
+2. Enable feature flag chrome://flags/#enable-desktop-pwas-manifest-id
 3. Navigate to a Relying Party page that specifies the `id` field.
 
 ## Relying party implemetation
