@@ -6,7 +6,7 @@ We will do our best to keep these instructions up to date as protocol and API ch
 As of approximately August 18, 2021, it is available on Chrome Canary channel. It will subsequently roll into downstream channels.
 
 # Enabling manifest id member in Chrome
-1. Download a version of Chrome with manifest id implemented. ([Link for Canary channel](https://www.google.com/chrome/))
+1. Download a version of Chrome with manifest id implemented (>=M95). ([Link for Canary channel](https://www.google.com/chrome/))
 2. Enable feature flag chrome://flags/#enable-desktop-pwas-manifest-id
 3. Navigate to a Relying Party page that specifies the `id` field.
 
@@ -30,4 +30,4 @@ migrate to specify `id`:
 }
 ```
 
-To verify the computed app id after app installation, navigate to `chrome://web-app-internals/` and checks `unhashed_app_id` for the specific app.
+To verify the computed app id after app installation, open devtool, go to "Application", you should see "App Id" displayed in Identity section.
