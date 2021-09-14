@@ -11,7 +11,7 @@ As of approximately August 18, 2021, it is available on Chrome Canary channel. I
 3. Navigate to a Relying Party page that specifies the `id` field.
 
 ## Relying party implemetation
-Specify `id` in the manifest. If this application is already under use, specify `id` to match the start_url to keep the existing app identifier to be backward compatible.
+Specify `id` in the manifest. If this application is already under use, specify `id` to match the start_url to keep the existing app identifier to be backward compatible. When `id` is not specified, Devtool -> "Application" -> "Identity" -> "App Id" will show a `!` icon that recommends the id value to be backward compatible.
 Example manifest before migrating to use `id`:
 ```
 {
