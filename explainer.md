@@ -869,12 +869,15 @@ id is just a string, like a UUID, that uniquely identifies the app on the start_
 
 (at https://www.new-app.com/):
 
+```
 {
   ...
   id: "NewAppId",
   start_url: "/index.html", // <- updatable now
   ...
 }
+```
+                                  
 The global id evaluates to https://www.example.com/ + NewAppId = https://www.example.com/NewAppId. This is not intended to be evaluate-able, but looks like a URL.
 
 If you have an existing app (installs exist where the manifest did NOT have an id set)
@@ -882,27 +885,34 @@ id should be the relative path of the start_url so that the new manifest (with i
 
 old (at https://www.example.com/):
 
+```
 {
   ...
   start_url: "/index.html"
   ...
 }
+```
+                                  
 The default global id is: https://www.example.com/index.html
 
 new:
 
+```
 {
   ...
   id: "index.html",
   start_url: "/index.html", // <- now this is updatable!
   ...
 }
+```
+  
 The global id evaluates to https://www.example.com/ + index.html = https://www.example.com/index.html, thus matching the old manifest.
 
 Hopefully that makes sense?
 
 (example of updating the start_url of the app)
 
+```
 {
   ...
   id: "index.html",
@@ -910,6 +920,7 @@ Hopefully that makes sense?
   scope: "/nested/",
   ...
 }
+```
 
 ## Other topics
 
