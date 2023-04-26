@@ -875,7 +875,7 @@ id is just a string, like a UUID, that uniquely identifies the app on the start_
   start_url: "/index.html", // <- updatable now
   ...
 }
-The global id evaluates to https://www.example.com/ + NewAppId = https://www.example.com/NewAppId. This is not intended to be evaluate-able, but looks like a URL.
+The global id evaluates to https://www.new-app.com/ + NewAppId = https://www.new-app.com/NewAppId. This is not intended to be evaluate-able, but looks like a URL.
 
 If you have an existing app (installs exist where the manifest did NOT have an id set)
 id should be the relative path of the start_url so that the new manifest (with id specified) will apply, and thus update, the old manifest. EX:
